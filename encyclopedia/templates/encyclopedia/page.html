@@ -1,0 +1,26 @@
+{% extends "encyclopedia/layout.html" %}
+{% block title %} 
+{{title}}
+{% endblock %}
+
+{% block body%}
+{% if exists %}
+<div>
+ <h1>Page Already Exists</h1>
+</div>
+
+{% elif content %}
+    {{content|safe}}
+ <form method="GET" action="{% url 'edit_page' %}">
+   <input type="hidden" name="page" value="{{title}}">
+   <input type="submit" value="Edit Page">
+</form>
+   
+ {% else %}
+ <div>
+   <h1>Error Page Doesn't exist</h1>
+ </div>
+ {% endif %}
+
+
+{% endblock %}
