@@ -31,8 +31,9 @@ def page_content(title):
 
 def check_pageExists(title):
     """Returns True if the page with the title exists, else False"""
+
     for entry in util.list_entries():
-        if entry.casefold()==title.casefold():
+        if entry.casefold()== title.casefold():
             return True
     return False
 
@@ -46,14 +47,14 @@ def substrTitle(title):
     entries=[]
     if title is not(None):
         for entry in util.list_entries():
-            if title in entry:
+            if title.casefold() in entry.casefold():
                 entries.append(entry)
     return entries
 
 def searchBox(request):
     if request.GET.get('q'):
         print("Query in index exists")
-        title=request.GET['q']
+        title=str(request.GET['q'])
         if check_pageExists(title):
             return HttpResponseRedirect(reverse("page",args=[title]))
         #else if page doesnt exist we check for the substring in the title
@@ -124,7 +125,7 @@ def edit_page(request):
             content=form.cleaned_data["content"].encode()
             title=form.cleaned_data['title']
             save_page(title,content)
-            return HttpResponseRedirect(reverse("index"))
+            return HttpResponseRedirect(reverse("page",args=[title]))
 
 
     #else if method is GET
